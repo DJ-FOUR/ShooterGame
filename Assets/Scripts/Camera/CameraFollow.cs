@@ -19,6 +19,7 @@ public class CameraFollow : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //通过插值实现相机的延迟跟踪
         transform.position = Vector3.Lerp(transform.position, offset + player.transform.position, Smoothing*Time.deltaTime);
     }
     // Update is called once per frame
