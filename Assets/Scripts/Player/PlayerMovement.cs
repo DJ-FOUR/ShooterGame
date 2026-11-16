@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         int floorLayer = LayerMask.GetMask("Floor");
         //射线检测,返回射线穿透的数据给floorHit
         RaycastHit floorHit;
-        bool isTouchFloor = Physics.Raycast(cameraRay, out floorHit, 100, floorLayer);      //（射线，射线碰到的数据-输出的，射线长度，射线碰到的物体所在的图层）
+        bool isTouchFloor = Physics.Raycast(cameraRay, out floorHit, 100, floorLayer);      //（射线，射线碰到的物体-输出的，射线长度，射线碰到的物体所在的图层）
         
         if (isTouchFloor)
         {
