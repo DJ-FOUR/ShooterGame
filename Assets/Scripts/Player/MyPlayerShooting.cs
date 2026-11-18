@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class MyPlayerShooting : MonoBehaviour
 {
     public int Damage = 10;
+    public float PropForce = 5f;   //子弹推动道具的冲量
 
     private float time = 0f;
     private float timeBetweenBullets = 0.15f;
@@ -48,7 +50,6 @@ public class MyPlayerShooting : MonoBehaviour
         }
 
 
-        //
     }
     void Shoot()
     {
@@ -65,7 +66,7 @@ public class MyPlayerShooting : MonoBehaviour
         gunLine.SetPosition(0, transform.position);
         gunLine.enabled = true;
         //射线检测
-        shootRay.origin = transform.position;
+        shootRay.origin = transform.position - transform.forward * 1.5f;
         shootRay.direction = transform.forward;
         if (Physics.Raycast(shootRay, out shootHit, 100, shootMask))    //Raycast检测射线是否命中碰撞体，返回bool
         {
@@ -75,6 +76,15 @@ public class MyPlayerShooting : MonoBehaviour
                 //伤害扣除
                 MyEnemyHealth enemyHealth = shootHit.collider.GetComponent<MyEnemyHealth>();
                 enemyHealth.TakeDamage(Damage, shootHit);
+            }
+            else
+            {
+                //推动场景道具
+                Rigidbody propRb = shootHit.collider.attachedRigidbody;
+                if (propRb != null && !propRb.isKinematic)
+                {
+                    propRb.AddForceAtPosition(shootRay.direction * PropForce, shootHit.point, ForceMode.Impulse);
+                }
             }
 
 
