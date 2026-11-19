@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float Speed = 640f;    //玩家移动速度
+    public float Speed = 6f;    //玩家移动速度
 
     private Rigidbody rb;
     private Animator anim;

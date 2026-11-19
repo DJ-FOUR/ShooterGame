@@ -8,6 +8,7 @@ public class MyEnemyHealth : MonoBehaviour
 {
     public int StartingHealth = 100;
     public AudioClip DeathClip;
+    public ParticleSystem deathParticle;
 
     private AudioSource enemyAudioSource;
     private ParticleSystem enemyParticles;
@@ -20,7 +21,7 @@ public class MyEnemyHealth : MonoBehaviour
     //受击闪烁
     private SkinnedMeshRenderer body;
     private Color originalEmission;
-    private float flashTimer;
+    private float flashTimer = 0.1f;
 
     void Awake()
     {
@@ -39,13 +40,6 @@ public class MyEnemyHealth : MonoBehaviour
         if (IsSinking)
         {
             transform.Translate(-transform.up * Time.deltaTime);
-        }
-        //变回原来的颜色
-        if (flashTimer > 0f)
-        {
-            flashTimer -= Time.deltaTime;
-            if (flashTimer <= 0f)
-                body.material.SetColor("_EmissionColor", originalEmission);
         }
     }
     //受伤
@@ -66,8 +60,7 @@ public class MyEnemyHealth : MonoBehaviour
             enemyParticles.transform.position = hit.point;
             enemyParticles.Play();
             //受击闪烁0.1秒
-            body.material.SetColor("_EmissionColor", new Color(4f, 4f, 4f, 1f));
-            flashTimer = 0.1f;
+            StartCoroutine(HitFlash());
             //受击减速
             deathMovement.Slow();
             //敌人死亡
@@ -84,7 +77,9 @@ public class MyEnemyHealth : MonoBehaviour
         deathMovement.enabled = false;
         deathMovement.StopAgent();
         //取消敌人的碰撞
-        enemyColider.isTrigger = true;
+        enemyColider.enabled = false;
+        //取消子弹的碰撞
+        gameObject.layer = 0;
         //减少系统开销
         GetComponent<Rigidbody>().isKinematic = true;
         //播放敌人死亡动画
@@ -92,9 +87,15 @@ public class MyEnemyHealth : MonoBehaviour
         //播放敌人死亡音效
         enemyAudioSource.clip = DeathClip;
         enemyAudioSource.Play();
-
+        //播放死亡粒子特效
+        deathParticle.Play();
     }
-
+    IEnumerator HitFlash()
+    {
+        body.material.SetColor("_EmissionColor", new Color(4f, 4f, 4f, 1f));
+        yield return new WaitForSeconds(flashTimer);
+        body.material.SetColor("_EmissionColor", originalEmission);
+    }
     public int CurrentHealth()
     {
         return StartingHealth;
@@ -103,6 +104,6 @@ public class MyEnemyHealth : MonoBehaviour
     public void StartSinking()
     {
         IsSinking = true;
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 1f);
     }
 }

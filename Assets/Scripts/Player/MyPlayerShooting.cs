@@ -1,3 +1,4 @@
+using CompleteProject;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,14 +9,16 @@ public class MyPlayerShooting : MonoBehaviour
 {
     public int Damage = 10;
     public float PropForce = 5f;   //子弹推动道具的冲量
+    public float ShootSpeed = 4f;    //射击时的移速
 
     private float time = 0f;
     private float timeBetweenBullets = 0.15f;
-    private float flashDuration = 0.02f;
+    private float flashDuration = 0.05f;
     private AudioSource gunAudio;
     private Light gunLight;
     private LineRenderer gunLine;
     private ParticleSystem gunParticle;
+    private PlayerMovement playerMovement;
 
     //开枪发射射线的变量
     private Ray shootRay;           //定义射线
@@ -28,6 +31,7 @@ public class MyPlayerShooting : MonoBehaviour
         gunLight = GetComponent<Light>();
         gunLine = GetComponent<LineRenderer>();
         gunParticle = GetComponent<ParticleSystem>();
+        playerMovement = GetComponent<PlayerMovement>();
         //获取射线检测的图层
         shootMask = LayerMask.GetMask("Shootable");
     }
@@ -41,15 +45,8 @@ public class MyPlayerShooting : MonoBehaviour
         if (Input.GetButton("Fire1") && time >= timeBetweenBullets)
         {
             Shoot();    //射击
-        }
-        //关闭闪光和射线
-        if (time >= flashDuration)
-        {
-            gunLight.enabled = false;
-            gunLine.enabled = false;
-        }
 
-
+        }
     }
     void Shoot()
     {
@@ -57,14 +54,13 @@ public class MyPlayerShooting : MonoBehaviour
         time = 0f;
         //播放声音
         gunAudio.Play();
-        //启用闪光
-        gunLight.enabled = true;
+        //启用闪光和射线
+        StartCoroutine(GunFlash());
         //播放粒子特效
         gunParticle.Play();
 
         //启用射线(视觉）
         gunLine.SetPosition(0, transform.position);
-        gunLine.enabled = true;
         //射线检测
         shootRay.origin = transform.position - transform.forward * 1.5f;
         shootRay.direction = transform.forward;
@@ -86,13 +82,18 @@ public class MyPlayerShooting : MonoBehaviour
                     propRb.AddForceAtPosition(shootRay.direction * PropForce, shootHit.point, ForceMode.Impulse);
                 }
             }
-
-
         }
         else
         {
             gunLine.SetPosition(1, transform.position + transform.forward * 100);
         }
-
+    }
+    IEnumerator GunFlash()
+    {
+        gunLight.enabled = true;
+        gunLine.enabled = true;
+        yield return new WaitForSeconds(flashDuration);
+        gunLight.enabled = false;
+        gunLine.enabled = false;
     }
 }
