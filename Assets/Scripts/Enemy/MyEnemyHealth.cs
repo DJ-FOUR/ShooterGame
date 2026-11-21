@@ -49,10 +49,11 @@ public class MyEnemyHealth : MonoBehaviour
         {
             //血量扣除
             StartingHealth -= amount;
-            if (StartingHealth < 0)
+            if (StartingHealth <= 0)
             {
                 StartingHealth = 0;
                 IsDead = true;
+                Death();
             }
             //播放受击音效
             enemyAudioSource.Play();
@@ -63,11 +64,6 @@ public class MyEnemyHealth : MonoBehaviour
             StartCoroutine(HitFlash());
             //受击减速
             deathMovement.Slow();
-            //敌人死亡
-            if (IsDead == true)
-            {
-                Death();
-            }
         }
 
     }
@@ -89,6 +85,8 @@ public class MyEnemyHealth : MonoBehaviour
         enemyAudioSource.Play();
         //播放死亡粒子特效
         deathParticle.Play();
+        //得分加10
+        MyPlayerScores.Scores += 10;
     }
     IEnumerator HitFlash()
     {

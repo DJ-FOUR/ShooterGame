@@ -9,7 +9,14 @@ public class MyEnemyManager : MonoBehaviour
 
     public float FirstCreatENemyTime = 0;
     public float CreatEnemyTime = 3;
-    
+
+    private GameObject player;
+    private MyPlayerHealth playerHealth;
+    private void Awake()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerHealth = player.GetComponent<MyPlayerHealth>();
+    }
     void Start()
     {
         InvokeRepeating("Spawn", FirstCreatENemyTime, CreatEnemyTime);     //固定频率重复调用
@@ -17,7 +24,10 @@ public class MyEnemyManager : MonoBehaviour
 
     void Update()
     {
-
+        if (playerHealth.IsPlayerDead)
+        {
+            CancelInvoke();
+        }
     }
     private void Spawn()
     {

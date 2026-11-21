@@ -7,7 +7,7 @@ using static UnityEngine.UI.Image;
 
 public class MyPlayerShooting : MonoBehaviour
 {
-    public int Damage = 10;
+    public int Damage = 25;
     public float PropForce = 5f;   //子弹推动道具的冲量
     public float ShootSpeed = 4f;    //射击时的移速
 

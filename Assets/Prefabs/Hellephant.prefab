@@ -5172,7 +5172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd99a2341c2e6cb4696b21e772dd01c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 50
   intervalTimer: 2.5
 --- !u!1 &109428
 GameObject:

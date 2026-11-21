@@ -7,6 +7,7 @@ public class MyEnemyMovement : MonoBehaviour
 {
     private GameObject player;
     private NavMeshAgent nav;
+    private MyPlayerHealth playerHealth;
 
     //击退
     private Vector3 knockbackDir;
@@ -25,11 +26,20 @@ public class MyEnemyMovement : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         nav=GetComponent<NavMeshAgent>();
         originalSpeed = nav.speed;
+
+        playerHealth = player.GetComponent<MyPlayerHealth>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //玩家死亡不追击
+        if (playerHealth.IsPlayerDead)
+        {
+            nav.enabled = false;
+            enabled = false;
+            return;
+        }
         //减速计时
         if (slowTimer > 0f)
         {
@@ -46,6 +56,8 @@ public class MyEnemyMovement : MonoBehaviour
             return;
         }
         nav.SetDestination(player.transform.position);
+
+
     }
 
     //受击时由 MyEnemyHealth 调用
