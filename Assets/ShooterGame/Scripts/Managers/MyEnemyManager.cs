@@ -31,6 +31,6 @@ public class MyEnemyManager : MonoBehaviour
     }
     private void Spawn()
     {
-        Instantiate(Enemy,CreateEnemyPoint.transform.position, CreateEnemyPoint.transform.rotation); 
+        Instantiate(Enemy, CreateEnemyPoint.transform.position, CreateEnemyPoint.transform.rotation);
     }
 }

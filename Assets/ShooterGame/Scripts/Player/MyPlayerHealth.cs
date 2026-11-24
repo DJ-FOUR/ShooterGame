@@ -13,6 +13,7 @@ public class MyPlayerHealth : MonoBehaviour
     public Image DamageImage;
     public Color FlashColor = new(1f, 0f, 0f, 1);
     public float FlashTime = 0.1f;
+    public Slider Slider;
 
     private float playerCurrentHealth;
     private AudioSource playerAudio;
@@ -41,8 +42,6 @@ public class MyPlayerHealth : MonoBehaviour
             playerCurrentHealth -= amount;
             //闪红屏
             StartCoroutine(DamageColor());
-            //更新玩家血量UI
-            PlayerHealthUI.text = playerCurrentHealth.ToString();   
             if (playerCurrentHealth <= 0)
             {
                 playerCurrentHealth = 0;
@@ -54,6 +53,9 @@ public class MyPlayerHealth : MonoBehaviour
                 //声音
                 playerAudio.Play();
             }
+            //更新玩家血量UI
+            PlayerHealthUI.text = playerCurrentHealth.ToString();
+            Slider.value = playerCurrentHealth;
         }
 
 
