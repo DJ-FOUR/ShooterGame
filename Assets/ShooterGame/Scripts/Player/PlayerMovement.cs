@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody rb;
     private Animator anim;
+    private float h;
+    private float v;
 
     private void Awake()
     {
@@ -14,19 +16,20 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+        //鼠标控制旋转
+        Turning();
+        //切换动画
+        Animating(h, v);
+    }
     private void FixedUpdate()
     {
-
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
         //键盘控制移动
         Move(h,v);
 
-        //鼠标控制旋转
-        Turning();
-
-        //切换动画
-        Animating(h, v);
     }
     private void Move(float h,float v)
     {
@@ -39,15 +42,11 @@ public class PlayerMovement : MonoBehaviour
     {
         //创建相机射线（鼠标位置）
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //得到地板图层所在的编号
-        int floorLayer = LayerMask.GetMask("Floor");
-        //射线检测,返回射线穿透的数据给floorHit
-        RaycastHit floorHit;
-        bool isTouchFloor = Physics.Raycast(cameraRay, out floorHit, 100, floorLayer);      //（射线，射线碰到的物体-输出的，射线长度，射线碰到的物体所在的图层）
-        
-        if (isTouchFloor)
+        //用数学平面求交代替地板碰撞体，避免碰撞体阻挡其他Rigidbody
+        Plane aimPlane = new Plane(Vector3.up, new Vector3(0f, 0.31f, 0f));
+        if (aimPlane.Raycast(cameraRay, out float hitDistance))
         {
-            Vector3 v3 = floorHit.point - transform.position;
+            Vector3 v3 = cameraRay.GetPoint(hitDistance) - transform.position;
             v3.y = 0;
             Quaternion quaternion = Quaternion.LookRotation(v3);
             rb.MoveRotation(quaternion);

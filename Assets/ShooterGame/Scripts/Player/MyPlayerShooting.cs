@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +6,8 @@ using UnityEngine;
 public class MyPlayerShooting : MonoBehaviour
 {
     public int Damage = 25;
-    public float PropForce = 5f;   //×Óµ¯ÍÆ¶¯µÀ¾ßµÄ³åÁ¿
-    public float ShootSpeed = 4f;    //Éä»÷Ê±µÄÒÆËÙ
+    public float PropForce = 5f;   //å­å¼¹æ¨åŠ¨é“å…·çš„å†²é‡
+    public float ShootSpeed = 4f;    //å°„å‡»æ—¶çš„ç§»é€Ÿ
 
     private float time = 0f;
     private float timeBetweenBullets = 0.15f;
@@ -18,10 +18,10 @@ public class MyPlayerShooting : MonoBehaviour
     private ParticleSystem gunParticle;
     private PlayerMovement playerMovement;
 
-    //¿ªÇ¹·¢ÉäÉäÏßµÄ±äÁ¿
-    private Ray shootRay;           //¶¨ÒåÉäÏß
-    private RaycastHit shootHit;    //¶¨ÒåÉäÏßÅöµ½µÄÎïÌå
-    private int shootMask;          //¶¨Òå¿ÉÒÔÓëÉäÏßÏà×²µÄÍ¼²ã
+    //å¼€æªå‘å°„å°„çº¿çš„å˜é‡
+    private Ray shootRay;           //å®šä¹‰å°„çº¿
+    private RaycastHit shootHit;    //å®šä¹‰å°„çº¿ç¢°åˆ°çš„ç‰©ä½“
+    private int shootMask;          //å®šä¹‰å¯ä»¥ä¸å°„çº¿ç›¸æ’çš„å›¾å±‚
 
     void Awake()
     {
@@ -29,51 +29,68 @@ public class MyPlayerShooting : MonoBehaviour
         gunLight = GetComponent<Light>();
         gunLine = GetComponent<LineRenderer>();
         gunParticle = GetComponent<ParticleSystem>();
-        playerMovement = GetComponent<PlayerMovement>();
-        //»ñÈ¡ÉäÏß¼ì²âµÄÍ¼²ã
+        playerMovement = GetComponentInParent<PlayerMovement>();
+        //è·å–å°„çº¿æ£€æµ‹çš„å›¾å±‚
         shootMask = LayerMask.GetMask("Shootable");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //ÉèÖÃ×Óµ¯µÄ¼ä¸ôÊ±¼ä
+        //è®¾ç½®å­å¼¹çš„é—´éš”æ—¶é—´
         time = time += Time.deltaTime;
-        //¿ª»ğ¼ü
+        //å¼€ç«é”®
         if (Input.GetButton("Fire1") && time >= timeBetweenBullets)
         {
-            Shoot();    //Éä»÷
+            Shoot();    //å°„å‡»
 
         }
     }
     void Shoot()
     {
-        //ÖØÖÃ×Óµ¯¼ä¸ôµÄ¼ÆËã
+        //é‡ç½®å­å¼¹é—´éš”çš„è®¡ç®—
         time = 0f;
-        //²¥·ÅÉùÒô
+        //æ’­æ”¾å£°éŸ³
         gunAudio.Play();
-        //ÆôÓÃÉÁ¹âºÍÉäÏß
+        //å¯ç”¨é—ªå…‰å’Œå°„çº¿
         StartCoroutine(GunFlash());
-        //²¥·ÅÁ£×ÓÌØĞ§
+        //æ’­æ”¾ç²’å­ç‰¹æ•ˆ
         gunParticle.Play();
 
-        //ÆôÓÃÉäÏß(ÊÓ¾õ£©
-        gunLine.SetPosition(0, transform.position);
-        //ÉäÏß¼ì²â
-        shootRay.origin = transform.position - transform.forward * 1.5f;
-        shootRay.direction = transform.forward;
-        if (Physics.Raycast(shootRay, out shootHit, 100, shootMask))    //Raycast¼ì²âÉäÏßÊÇ·ñÃüÖĞÅö×²Ìå£¬·µ»Øbool
+        //å…ˆç”¨ç›¸æœºå°„çº¿æ‰¾å‡ºé¼ æ ‡æŒ‡ç€çš„3Dç‚¹ï¼ˆæ•°å­¦å¹³é¢æ±‚äº¤ï¼Œä¸ä¾èµ–åœ°æ¿ç¢°æ’ä½“ï¼‰
+        Ray aimRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane aimPlane = new Plane(Vector3.up, new Vector3(0f, 0.31f, 0f));
+
+        Vector3 aimPoint;
+        if (aimPlane.Raycast(aimRay, out float hitDistance))
+            aimPoint = aimRay.GetPoint(hitDistance);
+        else
+            aimPoint = aimRay.GetPoint(100);
+
+        //è„šæœ¬æŒ‚åœ¨æªå£èŠ‚ç‚¹ä¸Šï¼Œtransform.position å³æªå£ä½ç½®
+        Vector3 muzzle = transform.position;
+        //å°„çº¿ä»ç¢°æ’ä½“å†…éƒ¨å‡ºå‘ä¼šæ¼æ£€ï¼šå…ˆä»èº«ä½“å‘æªå£è¡¥æ£€ï¼Œè¢«æŒ¡ä½å°±æŠŠå¼€ç«ç‚¹æ‹‰å›éšœç¢ç‰©å¤–ä¾§
+        Vector3 body = playerMovement.transform.position + Vector3.up * 0.5f;
+        Vector3 toMuzzle = muzzle - body;
+        if (Physics.Raycast(body, toMuzzle.normalized, out RaycastHit muzzleBlock, toMuzzle.magnitude, shootMask))
         {
-            gunLine.SetPosition(1, shootHit.point);     //½Ø¶ÏÉäÏß
+            muzzle = muzzleBlock.point - toMuzzle.normalized * 0.01f;
+        }
+        shootRay.origin = muzzle;
+        shootRay.direction = (aimPoint - muzzle).normalized;
+        gunLine.SetPosition(0, muzzle);
+
+        if (Physics.Raycast(shootRay, out shootHit, 100, shootMask))    //æ£€æµ‹å°„çº¿æ˜¯å¦å‘½ä¸­ç¢°æ’ä½“
+        {
+            gunLine.SetPosition(1, shootHit.point);     //æˆªæ–­å°„çº¿
             if (shootHit.collider.gameObject.tag == "Enemy")
             {
-                //ÉËº¦¿Û³ı
+                //ä¼¤å®³æ‰£é™¤
                 MyEnemyHealth enemyHealth = shootHit.collider.GetComponent<MyEnemyHealth>();
                 enemyHealth.TakeDamage(Damage, shootHit);
             }
             else
             {
-                //ÍÆ¶¯³¡¾°µÀ¾ß
+                //æ¨åŠ¨åœºæ™¯é“å…·
                 Rigidbody propRb = shootHit.collider.attachedRigidbody;
                 if (propRb != null && !propRb.isKinematic)
                 {
@@ -83,7 +100,7 @@ public class MyPlayerShooting : MonoBehaviour
         }
         else
         {
-            gunLine.SetPosition(1, transform.position + transform.forward * 100);
+            gunLine.SetPosition(1, shootRay.origin + shootRay.direction * 100);
         }
     }
     IEnumerator GunFlash()
