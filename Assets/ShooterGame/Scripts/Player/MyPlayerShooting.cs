@@ -36,6 +36,7 @@ public class MyPlayerShooting : MonoBehaviour
 
     void Update()
     {
+        if (GlobalMenu.IsOpen) return; // 面板打开时不射击
         //设置子弹的间隔时间
         time = time += Time.deltaTime;
         //开火键

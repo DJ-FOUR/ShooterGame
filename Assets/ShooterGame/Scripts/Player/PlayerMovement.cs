@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Turning()
     {
+        if (GlobalMenu.IsOpen) return; // 面板打开时鼠标不控制转向
         //创建相机射线（鼠标位置）
         Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         //用数学平面求交代替地板碰撞体，避免碰撞体阻挡其他Rigidbody
