@@ -1,4 +1,4 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ public class CameraFollow : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //通过插值实现相机的延迟跟踪
+        //閫氳繃鎻掑�煎疄鐜扮浉鏈虹殑寤惰繜璺熻釜
         transform.position = Vector3.Lerp(transform.position, offset + player.transform.position, Smoothing*Time.deltaTime);
     }
     // Update is called once per frame

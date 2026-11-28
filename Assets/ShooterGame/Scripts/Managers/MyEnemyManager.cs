@@ -1,4 +1,4 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ public class MyEnemyManager : MonoBehaviour
     }
     void Start()
     {
-        InvokeRepeating("Spawn", FirstCreatENemyTime, CreatEnemyTime);     //固定频率重复调用
+        InvokeRepeating("Spawn", FirstCreatENemyTime, CreatEnemyTime);     //鍥哄畾棰戠巼閲嶅璋冪敤
     }
 
     void Update()

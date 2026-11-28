@@ -1,14 +1,14 @@
-using System.Collections;
+锘縰sing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MyPlayerScores : MonoBehaviour
 {
-    public Text ScoresText;             //应用到UI文本
+    public Text ScoresText;             //搴旂敤鍒癠I鏂囨湰
     public static int Scores = 0;       //
-    public float PunchSize = 0.3f;      //放大增量
-    public float PunchDuration = 0.2f;  //回落时长
+    public float PunchSize = 0.3f;      //鏀惧ぇ澧為噺
+    public float PunchDuration = 0.2f;  //鍥炶惤鏃堕暱
 
     private int formerScore;
     private RectTransform scoresRect;
@@ -24,7 +24,7 @@ public class MyPlayerScores : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //分数变化
+        //鍒嗘暟鍙樺寲
         if (Scores != formerScore)
         {
             if (punch != null) StopCoroutine(punch);

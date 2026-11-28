@@ -412,7 +412,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Setting
+  m_Text: Settings
 --- !u!222 &574929371
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -536,7 +536,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Exit
+  m_Text: Quit
 --- !u!222 &922964307
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -615,7 +615,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: start
+  m_Text: Start
 --- !u!222 &1098021491
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1239,7 +1239,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.581
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

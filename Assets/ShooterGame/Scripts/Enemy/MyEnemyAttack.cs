@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class MyEnemyAttack : MonoBehaviour
 {
-    public float Damage = 10;     //¹¥»÷ÉËº¦
-    public float intervalTimer = 2.5f;   //¹¥»÷¼ä¸ô
+    public float Damage = 10;     //æ”»å‡»ä¼¤å®³
+    public float intervalTimer = 2.5f;   //æ”»å‡»é—´éš”
     private float realTime;
-    private bool playerInRange = false;     //Íæ¼ÒÊÇ·ñÔÚ¿ÛÑª·¶Î§ÄÚ
+    private bool playerInRange = false;     //ç©å®¶æ˜¯å¦åœ¨æ‰£è¡€èŒƒå›´å†…
     private MyPlayerHealth myPlayerHealth;
-    private GameObject player;      //ÕÒµ½Íæ¼Ò
-    private Animator enemyIdleAnim;     //Íæ¼ÒËÀÍö²¥·Å´ı»ú¶¯»­
+    private GameObject player;      //æ‰¾åˆ°ç©å®¶
+    private Animator enemyIdleAnim;     //ç©å®¶æ­»äº¡æ’­æ”¾å¾…æœºåŠ¨ç”»
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player");    //Í¨¹ı±êÇ©ÕÒµ½Íæ¼Ò
+        player = GameObject.FindGameObjectWithTag("Player");    //é€šè¿‡æ ‡ç­¾æ‰¾åˆ°ç©å®¶
         myPlayerHealth = player.GetComponent<MyPlayerHealth>();
         enemyIdleAnim = GetComponent<Animator>();
         realTime = intervalTimer;
@@ -46,7 +46,7 @@ public class MyEnemyAttack : MonoBehaviour
         myPlayerHealth.TakeDamage(Damage);
     }
 
-    //Íæ¼ÒÅöµ½´¥·¢Æ÷
+    //ç©å®¶ç¢°åˆ°è§¦å‘å™¨
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -55,7 +55,7 @@ public class MyEnemyAttack : MonoBehaviour
 
         }
     }
-    //Íæ¼ÒÀë¿ª´¥·¢Æ÷
+    //ç©å®¶ç¦»å¼€è§¦å‘å™¨
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Player")

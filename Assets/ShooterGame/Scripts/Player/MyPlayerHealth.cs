@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,7 +8,8 @@ public class MyPlayerHealth : MonoBehaviour
 {
     public float PlayerStartingHealth = 100;
     public AudioClip PlayerDeathClip;
-    public bool IsPlayerDead = false;
+    public bool IsPlayerDead { get; private set; }
+
     public Text PlayerHealthUI;
     public Image DamageImage;
     public Color FlashColor = new(1f, 0f, 0f, 1);
@@ -38,9 +39,9 @@ public class MyPlayerHealth : MonoBehaviour
     {
         if (IsPlayerDead == false)
         {
-            //ÕÊº“ø€—™
+            //Áé©ÂÆ∂Êâ£Ë°Ä
             playerCurrentHealth -= amount;
-            //…¡∫Ï∆¡
+            //Èó™Á∫¢Â±è
             StartCoroutine(DamageColor());
             if (playerCurrentHealth <= 0)
             {
@@ -50,10 +51,10 @@ public class MyPlayerHealth : MonoBehaviour
             }
             else
             {
-                //…˘“Ù
+                //Â£∞Èü≥
                 playerAudio.Play();
             }
-            //∏¸–¬ÕÊº“—™¡øUI
+            //Êõ¥Êñ∞Áé©ÂÆ∂Ë°ÄÈáèUI
             PlayerHealthUI.text = playerCurrentHealth.ToString();
             Slider.value = playerCurrentHealth;
         }
@@ -62,12 +63,12 @@ public class MyPlayerHealth : MonoBehaviour
     }
     private void Death()
     {
-        //…˘“Ù
+        //Â£∞Èü≥
         playerAudio.clip = PlayerDeathClip;
         playerAudio.Play();
-        //∂Øª≠
+        //Âä®Áîª
         anim.SetTrigger("Death");
-        //‘›Õ£“∆∂Ø∫Õ…‰ª˜◊Èº˛
+        //ÊöÇÂÅúÁßªÂä®ÂíåÂ∞ÑÂáªÁªÑ‰ª∂
         playerShooting.enabled = false;
         playerMovement.enabled = false;
 
@@ -84,6 +85,6 @@ IEnumerator DamageColor()
         DamageImage.color = Color.Lerp(DamageImage.color, Color.clear, 5f * Time.deltaTime);
         yield return null;
     }
-    DamageImage.color = Color.clear;   // ∂µµ◊æ´»∑πÈ¡„
+    DamageImage.color = Color.clear;   // ÂÖúÂ∫ïÁ≤æÁ°ÆÂΩíÈõ∂
 }
 }

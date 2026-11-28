@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -18,7 +18,7 @@ public class MyEnemyHealth : MonoBehaviour
     private bool IsDead = false;
     private bool IsSinking = false;
 
-    //ÊÜ»÷ÉÁË¸
+    //å—å‡»é—ªçƒ
     private SkinnedMeshRenderer body;
     private Color originalEmission;
     private float flashTimer = 0.1f;
@@ -42,12 +42,12 @@ public class MyEnemyHealth : MonoBehaviour
             transform.Translate(-transform.up * Time.deltaTime);
         }
     }
-    //ÊÜÉË
+    //å—ä¼¤
     public void TakeDamage(int amount, RaycastHit hit)
     {
         if (IsDead == false)
         {
-            //ÑªÁ¿¿Û³ı
+            //è¡€é‡æ‰£é™¤
             StartingHealth -= amount;
             if (StartingHealth <= 0)
             {
@@ -55,37 +55,37 @@ public class MyEnemyHealth : MonoBehaviour
                 IsDead = true;
                 Death();
             }
-            //²¥·ÅÊÜ»÷ÒôĞ§
+            //æ’­æ”¾å—å‡»éŸ³æ•ˆ
             enemyAudioSource.Play();
-            //²¥·ÅÁ£×ÓÌØĞ§
+            //æ’­æ”¾ç²’å­ç‰¹æ•ˆ
             enemyParticles.transform.position = hit.point;
             enemyParticles.Play();
-            //ÊÜ»÷ÉÁË¸0.1Ãë
+            //å—å‡»é—ªçƒ0.1ç§’
             StartCoroutine(HitFlash());
-            //ÊÜ»÷¼õËÙ
+            //å—å‡»å‡é€Ÿ
             deathMovement.Slow();
         }
 
     }
     private void Death()
     {
-        //È¡ÏûµĞÈËÑ°Â·
+        //å–æ¶ˆæ•Œäººå¯»è·¯
         deathMovement.enabled = false;
         deathMovement.StopAgent();
-        //È¡ÏûµĞÈËµÄÅö×²
+        //å–æ¶ˆæ•Œäººçš„ç¢°æ’
         enemyColider.enabled = false;
-        //È¡Ïû×Óµ¯µÄÅö×²
+        //å–æ¶ˆå­å¼¹çš„ç¢°æ’
         gameObject.layer = 0;
-        //¼õÉÙÏµÍ³¿ªÏú
+        //å‡å°‘ç³»ç»Ÿå¼€é”€
         GetComponent<Rigidbody>().isKinematic = true;
-        //²¥·ÅµĞÈËËÀÍö¶¯»­
+        //æ’­æ”¾æ•Œäººæ­»äº¡åŠ¨ç”»
         enemyAnimator.SetTrigger("Death");
-        //²¥·ÅµĞÈËËÀÍöÒôĞ§
+        //æ’­æ”¾æ•Œäººæ­»äº¡éŸ³æ•ˆ
         enemyAudioSource.clip = DeathClip;
         enemyAudioSource.Play();
-        //²¥·ÅËÀÍöÁ£×ÓÌØĞ§
+        //æ’­æ”¾æ­»äº¡ç²’å­ç‰¹æ•ˆ
         deathParticle.Play();
-        //µÃ·Ö¼Ó10
+        //å¾—åˆ†åŠ 10
         MyPlayerScores.Scores += 10;
     }
     IEnumerator HitFlash()

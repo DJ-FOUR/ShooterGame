@@ -29,5 +29,6 @@ public class ButtonHoverScale : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         targetScale = originalScale; // 目标设为还原
+        
     }
 }
