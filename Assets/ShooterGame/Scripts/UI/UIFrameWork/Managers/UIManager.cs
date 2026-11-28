@@ -4,7 +4,7 @@ using System.ComponentModel.Design;
 using UnityEngine;
 
 /// <summary>
-/// 存储所有UI信息，并可以创建或者销毁UI
+/// 通过字典存储所有UI信息缓存，并可以创建或者销毁UI。避免多次加载UI和关闭UI造成的性能开销
 /// </summary>
 public class UIManager
 {
@@ -37,6 +37,8 @@ public class UIManager
         }
         GameObject ui = GameObject.Instantiate(Resources.Load<GameObject>(type.Path), parent.transform);
         ui.name = type.Name;
+        
+        dicUI[type] = ui;
         return ui;
     }
     /// <summary>
